@@ -21,13 +21,13 @@ Lab 4 is consisted of 3 Parts:<br>
 ### Part 1: Preparing to use the USART
 Instructions:<br>
 
-The STM32F072 has four USART peripherals available; you will need to select one of these to
-use. We suggest using USART3, which has had the best success for students: the connections for
-USART1 and USART2 use pins that are unavailable on this board (see Discovery Board Manual
-Section 4.14 for Extension connectors to view these pins).
-Each USART has a small selection of GPIO pins that can be used as its transmit (TX) and receive
-(RX) signals. Because the split connections on the end of the Adafruit USB-USART cable are fairly
-short, you will want to choose USART output/input pins that are relatively near a GND pin.<br>
+The STM32F072 has four USART peripherals available; you will need to select one of these to use. 
+We suggest using USART3, which has had the best success for students: the connections for USART1 
+and USART2 use pins that are unavailable on this board (see Discovery Board Manual Section 4.14 
+for Extension connectors to view these pins). Each USART has a small selection of GPIO pins that 
+can be used as its transmit (TX) and receive (RX) signals. Because the split connections on the 
+end of the Adafruit USB-USART cable are fairly short, you will want to choose USART output/input 
+pins that are relatively near a GND pin.<br>
 
 1. Using the chip datasheet, locate pins that connect to TX/RX signals on USART peripherals.
 2. Choose a set of RX/TX pins that are near enough to a GND connection such that the USBUSART
@@ -44,33 +44,33 @@ Instructions:<br>
 
 For this exercise you will use the infinite while loop in the main function to read single-character
 commands typed at the serial terminal on the PC. Your goal is to develop an application that toggles
-the correct LED whenever the character matching the first letter of the color is pressed. For example, typing an ‘r’ into the terminal would toggle the red LED.<br>
+the correct LED whenever the character matching the first letter of the color is pressed. For example, 
+typing an ‘r’ into the terminal would toggle the red LED.<br>
 
-1. Check and wait on the USART status flag that indicates the receive (read) register is not
-empty.
-		• You can use an empty while loop which exits once the flag is set or simply check each
+1. Check and wait on the USART status flag that indicates the receive (read) register is not empty.
+* You can use an empty while loop which exits once the flag is set or simply check each
 iteration of the main infinite loop.
-		• It may be helpful to carefully read the bit descriptions in the register map.
+* It may be helpful to carefully read the bit descriptions in the register map.
 2. Test the received data and toggle the appropriate LED
-		• The receive register can be read like an ordinary variable. However, the data isn’t
+* The receive register can be read like an ordinary variable. However, the data isn’t
 		guaranteed to remain in the register after it has been read once.
-		• Unless you use a switch statement you may want to save the value into a local variable
+* Unless you use a switch statement you may want to save the value into a local variable
 		and test against that.
 3. Whenever a key is pressed that doesn’t match an LED color, print an error message to the
 console.
 4. You will probably want to comment or remove any old transmit code and delay statements
 from the infinite loop.
-		• The possible reception rate at 115200 Baud is faster than the minimum delay the HAL
+* The possible reception rate at 115200 Baud is faster than the minimum delay the HAL
 library functions are designed to provide.
-		• It is possible to lose received data while waiting for a blocking transmit to complete.
+* It is possible to lose received data while waiting for a blocking transmit to complete.
 Where we are only receiving single bytes it is unlikely to cause problems.
 
 ### Part 3: Interrupt-Based Reception.
 Instructions:<br>
 1. Your command parser must now accept two character commands.
-			• The first character is a letter matching the one of the LED colors.
-			• The second character is a number between 0 and 2.
-		<pre>	  – ‘0’ turns off the LED </pre>
+* The first character is a letter matching the one of the LED colors.
+* The second character is a number between 0 and 2.
+		<pre>	   – ‘0’ turns off the LED </pre>
 		<pre>		– ‘1’ turns on the LED  </pre>
 		<pre>		– ‘2’ toggles the LED   </pre>
 2. Print a command prompt such as “CMD?” when waiting for user input.
@@ -102,7 +102,9 @@ section below.
 # Time Expenditures:
 <pre>Lab04: Predicted Hours: 12h		Actual Hours:	h		 </pre>
 
-The actual hours recorded on top reflect the time spent for the assignment including the time spent in labs. It excludes time spent reading and understanding the lab assignment instructions at the beginning of the lab (pre-lab work).
+The actual hours recorded on top reflect the time spent for the assignment including the time 
+spent in labs. It excludes time spent reading and understanding the lab assignment instructions 
+at the beginning of the lab (pre-lab work).
 
 # Comments to Evaluators:
 
