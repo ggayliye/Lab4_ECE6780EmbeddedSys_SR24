@@ -167,10 +167,18 @@ Have a wonderful day!
 N/A
 
 # Caution/Warnings
+* When connecting the USB-UART cable to the Discovery board, do not attach the 
+5V or 3.3V output while debugging. This is because the ST-Link already provides 
+power and unless the two sources have equal voltages, current will flow through 
+the supplies, possibly causing damage. If both cables are sourced from the same 
+computer, then it is unlikely that there will be issues. However, the extra 
+connection is unnecessary. Note that it is necessary to connect the ground 
+pins between the Discovery and the USB-UART cable
 
-* "Ensure that both the Discovery board and USB-UART cable are unpowered when connecting
-them to each other. If one device is connected to the PC and the other is not, the transmit line on
-the powered device will feed voltage into the unpowered device through its input pin."
+* "Ensure that both the Discovery board and USB-UART cable are unpowered when 
+connecting them to each other. If one device is connected to the PC and the 
+other is not, the transmit line on the powered device will feed voltage 
+into the unpowered device through its input pin."
 
 
 # Examples of Good Software Practice (GSP)
