@@ -27,26 +27,14 @@
 
 volatile bool letterEntered=false;
 
-volatile char readVal;
+
 volatile int count=0;
 
 char testArr[]={'h','o','w',' ','a','r','e',' ','y','o','u','?',' '};
  
- char redIsOn[]={'R','e','d',' ','L','E','D',' ','i','s',' ','O','N','\n',
- '-','-','-','-','-','-','-','-','-','-','-','\n'};
- char blueIsOn[]={'B','l','u','e',' ','L','E','D',' ','i','s',' ','O','N','\n',
- '*','*','*','*','*','*','*','*','*','*','*','\n'};
- char orangeIsOn[]={'O','r','a','n','g','e',' ','L','E','D',' ','i','s',' ','O','N','\n',
- '+','+','+','+','+','+','+','+','+','+','+','\n'};
- char greenIsOn[]={'G','r','e','e','n',' ','L','E','D',' ','i','s',' ','O','N','\n',
- '=','=','=','=','=','=','=','=','=','=','=','\n'};
- char errorMessageWrongButton[]={'I','n','c','o','r','r','e','c','t',' ',
- 'b','u','t','t','o','n',' ','i','s',' ','c','l','i','c','k','e','d','\n',
-	 'c','l','i','c','k',':','\n', '"','r','"',' ','f','o','r',' ','R','e','d','\n',
-	 '"','b','"',' ','f','o','r',' ','B','l','u','e','\n',
-  '"','o','"',' ','f','o','r',' ','O','r','a','n','g','e','\n',
-  '"','g','"',' ','f','o','r',' ','G','r','e','e','n','\n',
- '%','%','%','%','%','%','%','%','%','%','%','\n'};
+
+	
+
  //'W','A','R','N','I','N','G','!','\n',
 		// PC6 is connected to RED LED. 
 		// PC7 is connected to BLUE LED.
@@ -98,19 +86,29 @@ void SystemClock_Config(void);
 	
 	//Helper Function: USART3 Interrupt Handler
 	//reset/make them off pins 6 through 9 LEDs (GPIOC->ODR & 0xFFFFFC3F)
-	 void USART3_4_IRQHandler(){
-	 
-	 //letterLED='c';
-	 letterEntered=true;
-	 readVal=USART3->RDR;
-	 
- };
-	
- 
-	
+//	 void USART3_4_IRQHandler(){
+//	 
+//	 //letterLED='c';
+//	 letterEntered=true;
+//	 readVal=USART3->RDR;
+//	 
+// };
+//	void fxnNumPrint(int i){
+//	char insideChar=i;
+
+//while( (USART3->ISR  | 0x0)==(USART3->ISR  & 0xFFFFFF7F)){ //wait until it's set.
+//	// USART3->TDR='\n';
+// }
+
+
+//USART3->TDR=insideChar;
+//	
+//}
+
+	//char insideChar;
 	//Start with a function declaration that accepts a single character-type variable and returns nothing.
 		void fxnAcceptsSingleCharTypeAndReturnNothing(char c){
-			
+			char insideChar=c;
 			//"There are a number of choices to be made when writing code that interfaces with a 
 			//communication peripheral. Typically you will be sending more data than will fit in 
 			//a single transmission frame and you will need to wait while the interface alternates
@@ -131,17 +129,21 @@ void SystemClock_Config(void);
 				//USART interrupt and status register (USART_ISR)
 				//Bit 7 TXE: Transmit data register empty
 				// Using "OR" will copy down and comparing with 7th bit set to 0 has to be equal:
-		while( (USART3->ISR  | 0x0)==(USART3->ISR  & 0xFFFFFF7F)){ //wait until it's set.
-			 
-		 }
+//		while( (USART3->ISR  | 0x0)==(USART3->ISR  & 0xFFFFFF7F)){ //wait until it's set.
+//			// USART3->TDR='\n';
+//		 }
 		
+			while ((USART3->ISR & 0x0) == (USART3->ISR  & 0x80)){ //wait until it's set.
+			// USART3->TDR='\n';
+		 }	 
+		 
 		//2. Write the character into the transmit data register.
 		   // printf("%c", 'c'); 
 		 // Bits 8:0 TDR[8:0]: Transmit data value
 		 //USART3->TDR='c';
 
 
-		USART3->TDR=c;
+		USART3->TDR=insideChar;
 	
 		//3. There is no need to manually clear the status bit, it will be automatically modified by the
     //peripheral when you write into the transmit register.
@@ -154,7 +156,12 @@ void SystemClock_Config(void);
 	// This function should loop over each character in the array and 
 	//call your character transmit function.
 	
+//		int count1=0;
+	
+
 	void fxnAcceptsArrayOfCharsAndReturnNothing(char arr[] ){
+		
+
 	//	count=0;
 		//1. Loop over each element in the character array
 		//2. If the current element is not the null character use your character transmit function.
@@ -163,13 +170,20 @@ void SystemClock_Config(void);
 		//(remember characters are numbers in C) • If you use the pointer method, remember to dereference 
 		//when testing for the null value and when calling the character transmit function. 
 		//3. Return when the null character is encountered.
-		
+		//char *arr1=arr;
 		int i;
 		for(i=0; arr[i] !='\0'; i++){
 			
 			fxnAcceptsSingleCharTypeAndReturnNothing(arr[i]);
 			
 		}
+//				fxnNumPrint(count1);		
+//		fxnAcceptsSingleCharTypeAndReturnNothing('\n');
+//				count1++;
+		
+		//arr=NULL;
+		
+		//s++;
 	//	count++;
 	//	USART3->RQR |=0x8; // RXFRQ flush
 	//	readVal='\0';
@@ -184,8 +198,35 @@ void SystemClock_Config(void);
 	//set or simply check each iteration of the main infinite loop. 
   //It may be helpful to carefully read the bit descriptions in the register map.
 	
+char ThisChar;
+	
 	//Helper function to toggle LED
 	void toggleLEDWithTheFirstLetterOfTheColor(char c){
+		
+char redIsOn[]={'R','e','d',' ','L','E','D',' ','i','s',' ','O','N','\n','-','-','-','-','-','-','-','-','-','-','-','\n'};
+//char static const redIsOff[]={'R','e','d',' ','L','E','D',' ','i','s',' ','O','F','F','\n',
+// '-','-','-','-','-','-','-','-','-','-','-','\n'};
+ 
+char blueIsOn[]={'B','l','u','e',' ','L','E','D',' ','i','s',' ','O','N','\n','*','*','*','*','*','*','*','*','*','*','*','\n'};
+//char static const blueIsOff[]={'B','l','u','e',' ','L','E','D',' ','i','s',' ','O','F','F','\n',
+// '*','*','*','*','*','*','*','*','*','*','*','\n'};
+
+char orangeIsOn[]={'O','r','a','n','g','e',' ','L','E','D',' ','i','s',' ','O','N','\n','+','+','+','+','+','+','+','+','+','+','+','\n'};
+//char static const orangeIsOff[]={'O','r','a','n','g','e',' ','L','E','D',' ','i','s',' ','O','F','F','\n',
+// '+','+','+','+','+','+','+','+','+','+','+','\n'};
+ 
+char greenIsOn[]={'G','r','e','e','n',' ','L','E','D',' ','i','s',' ','O','N','\n',
+ '=','=','=','=','=','=','=','=','=','=','=','\n'};
+//char static const greenIsOff[]={'G','r','e','e','n',' ','L','E','D',' ','i','s',' ','O','F','F','\n',
+// '=','=','=','=','=','=','=','=','=','=','=','\n'};
+ 
+char  errorMessageWrongButton[]={'I','n','c','o','r','r','e','c','t',' ',
+ 'b','u','t','t','o','n',' ','i','s',' ','c','l','i','c','k','e','d','\n',
+	 'c','l','i','c','k',':','\n', '"','r','"',' ','f','o','r',' ','R','e','d','\n',
+	 '"','b','"',' ','f','o','r',' ','B','l','u','e','\n',
+  '"','o','"',' ','f','o','r',' ','O','r','a','n','g','e','\n',
+  '"','g','"',' ','f','o','r',' ','G','r','e','e','n','\n',
+ '%','%','%','%','%','%','%','%','%','%','%','\n'};
 			
 		// PC6 is connected to RED LED. 
 		// PC7 is connected to BLUE LED.
@@ -205,44 +246,59 @@ void SystemClock_Config(void);
 		//  printf(%d, "orange");
 		//    printf("Error! Type:\n \"r\" or \"R\" for RED LED,\n\"b\" or \"B\" for BLUE LED,\n\"o\" or \"O\" for ORANGE LED,\n\"g\" or \"G\" for Green LED,\n");
 //while(letterEntered){}
-//switch (c) {
-//case ('r'):
-//fxnAcceptsArrayOfCharsAndReturnNothing(redIsOn);break;letterEntered=false;	
-//case ('b'):
-//fxnAcceptsArrayOfCharsAndReturnNothing(blueIsOn);break;	letterEntered=false;
-//case ('o'):
-//fxnAcceptsArrayOfCharsAndReturnNothing(orangeIsOn);break;letterEntered=false;
-//case ('g'):
-//fxnAcceptsArrayOfCharsAndReturnNothing(greenIsOn);break;letterEntered=false;
-//default:
-//fxnAcceptsArrayOfCharsAndReturnNothing(errorMessageWrongButton); 
-//}
-//GPIOC->BSRR |= 0x
-if(c=='r'){
-	GPIOC->ODR = (0x40 |(GPIOC->ODR & 0xFFFFFC3F));	
-	fxnAcceptsArrayOfCharsAndReturnNothing(redIsOn);
-
-}
-else if(c=='b'){
-	GPIOC->ODR = (0x80 |(GPIOC->ODR & 0xFFFFFC3F));	
-	// GPIOC->ODR |= 0x80; //blue is on, PC7
-	fxnAcceptsArrayOfCharsAndReturnNothing(blueIsOn);
-}
-
-else if(c=='o'){
-	GPIOC->ODR = (0x100 |(GPIOC->ODR & 0xFFFFFC3F));	
-	//GPIOC->ODR |= 0x100; //orange ON
-	fxnAcceptsArrayOfCharsAndReturnNothing(orangeIsOn);
-}
-else if(c=='g'){
-	GPIOC->ODR = (0x200 |(GPIOC->ODR & 0xFFFFFC3F));	
-	//GPIOC->ODR &= 0x2FF; //Green On
-	fxnAcceptsArrayOfCharsAndReturnNothing(greenIsOn);
-}
-else{
+switch (c) {
+case ('r'):
+	((GPIOC->ODR == (0x40 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFFBF) : (GPIOC->ODR =(0x40 | (GPIOC->ODR & 0xFFFFFC3F) ))); break;letterEntered=false;	
+//((GPIOC->ODR == (0x40 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFFBF) : (GPIOC->ODR =(0x40 | (GPIOC->ODR & 0xFFFFFC3F) )),fxnAcceptsArrayOfCharsAndReturnNothing(redIsOn)); break;letterEntered=false;	
+case ('b'):
+//((GPIOC->ODR == (0x80 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFF7F) : (GPIOC->ODR =(0x80 | (GPIOC->ODR & 0xFFFFFC3F) ),fxnAcceptsArrayOfCharsAndReturnNothing(blueIsOn)));	break;	letterEntered=false;
+((GPIOC->ODR == (0x80 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFF7F) : (GPIOC->ODR =(0x80 | (GPIOC->ODR & 0xFFFFFC3F) )));	break;	letterEntered=false;
+case ('o'):
+//((GPIOC->ODR == (0x100 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFEFF) : (GPIOC->ODR =(0x100 | (GPIOC->ODR & 0xFFFFFC3F) ),fxnAcceptsArrayOfCharsAndReturnNothing(orangeIsOn)));	break;letterEntered=false;
+((GPIOC->ODR == (0x100 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFEFF) : (GPIOC->ODR =(0x100 | (GPIOC->ODR & 0xFFFFFC3F) )));	break;letterEntered=false;
+case ('g'):
+//((GPIOC->ODR == (0x200 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFDFF) : (GPIOC->ODR =(0x200 | (GPIOC->ODR & 0xFFFFFC3F) ),fxnAcceptsArrayOfCharsAndReturnNothing(greenIsOn)));	break;letterEntered=false;
+((GPIOC->ODR == (0x200 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFDFF) : (GPIOC->ODR =(0x200 | (GPIOC->ODR & 0xFFFFFC3F) )));	break;letterEntered=false;
+default:
 	GPIOC->ODR = (GPIOC->ODR & 0xFFFFFC3F);	
 	fxnAcceptsArrayOfCharsAndReturnNothing(errorMessageWrongButton); 
 }
+//GPIOC->BSRR |= 0x
+		// PC6 is connected to RED LED. 
+		// PC7 is connected to BLUE LED.
+		// PC8 is connected to ORANGE LED.
+		// PC9 is connected to GREEN LED.
+		
+
+
+//ThisChar = c;
+//if(ThisChar=='r'){
+//((GPIOC->ODR == (0x40 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFFBF) : (GPIOC->ODR =(0x40 | (GPIOC->ODR & 0xFFFFFC3F) )),fxnAcceptsArrayOfCharsAndReturnNothing(redIsOn));	
+
+//}
+//else if(ThisChar=='b'){
+//((GPIOC->ODR == (0x80 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFF7F) : (GPIOC->ODR =(0x80 | (GPIOC->ODR & 0xFFFFFC3F) ),fxnAcceptsArrayOfCharsAndReturnNothing(blueIsOn)));	
+////(GPIOC->ODR == (0x80 |(GPIOC->ODR & 0xFFFFFC3F)) ? (GPIOC->ODR = (GPIOC->ODR & 0xFFFFFC3F)):	(GPIOC->ODR = (0x80 |(GPIOC->ODR & 0xFFFFFC3F))));	
+//	// GPIOC->ODR |= 0x80; //blue is on, PC7
+////fxnAcceptsArrayOfCharsAndReturnNothing(blueIsOn);
+//}
+
+//else if(ThisChar=='o'){
+//((GPIOC->ODR == (0x100 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFEFF) : (GPIOC->ODR =(0x100 | (GPIOC->ODR & 0xFFFFFC3F) ),fxnAcceptsArrayOfCharsAndReturnNothing(orangeIsOn)));	
+////(	GPIOC->ODR == (0x100 |(GPIOC->ODR & 0xFFFFFC3F))? (GPIOC->ODR = (GPIOC->ODR & 0xFFFFFC3F)):(GPIOC->ODR = (0x100 |(GPIOC->ODR & 0xFFFFFC3F))));	
+//		//GPIOC->ODR |= 0x100; //orange ON
+//	//fxnAcceptsArrayOfCharsAndReturnNothing(orangeIsOn);
+//}
+//else if(ThisChar=='g'){
+//	((GPIOC->ODR == (0x200 | (GPIOC->ODR & 0xFFFFFC3F) )) ? (GPIOC->ODR &= 0xFFFFFDFF) : (GPIOC->ODR =(0x200 | (GPIOC->ODR & 0xFFFFFC3F) ),fxnAcceptsArrayOfCharsAndReturnNothing(greenIsOn)));	
+////		(		GPIOC->ODR == (0x200 |(GPIOC->ODR & 0xFFFFFC3F))? (GPIOC->ODR = (GPIOC->ODR & 0xFFFFFC3F)):(	GPIOC->ODR = (0x200 |(GPIOC->ODR & 0xFFFFFC3F))));
+//	//GPIOC->ODR &= 0x2FF; //Green On
+//	fxnAcceptsArrayOfCharsAndReturnNothing(greenIsOn);
+//}
+//else{
+//	GPIOC->ODR = (GPIOC->ODR & 0xFFFFFC3F);	
+//	fxnAcceptsArrayOfCharsAndReturnNothing(errorMessageWrongButton); 
+//}
 //		if( (c !='r' | c !='R') | (c !='b' | c !='B') |(c !='o' | c !='O') | (c !='g' | c !='G') ){
 //	//	printf();
 //		
@@ -422,25 +478,32 @@ int main(void)
 		//0: Interrupt is inhibited
 		//1: A USART interrupt is generated whenever ORE=1 or RXNE=1 in the USART_ISR
 		//register
+		
 	
-			USART3->CR1 |=0x20; //Bit 5 RXNEIE: RXNE interrupt enable
-			//Binary: 00000000000000000000000000100000
-			// find USART3 handler from file : startup_stm32f072xb.s
-			
-            NVIC_EnableIRQ(USART3_4_IRQn); //
-            NVIC_SetPriority(USART3_4_IRQn,1); // set priority
+//			USART3->CR1 |=0x20; //Bit 5 RXNEIE: RXNE interrupt enable
+//			//Binary: 00000000000000000000000000100000
+//			// find USART3 handler from file : startup_stm32f072xb.s
+//			
+//            NVIC_EnableIRQ(USART3_4_IRQn); //
+//            NVIC_SetPriority(USART3_4_IRQn,1); // set priority
+						
+						
+						
+						
+						
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
+char localChar;
   while (1)
   {
     /* USER CODE END WHILE */
 	// The character transmission will be handled in the main loop of the application using a blocking method.
 
 	
-	//	fxnAcceptsSingleCharTypeAndReturnNothing('a');
+//	fxnAcceptsSingleCharTypeAndReturnNothing('a');
 		
-//	HAL_Delay(10);
+		
+//	HAL_Delay(100);
 		
 		//Once your string transmit function is complete, change your 
 		//main application to transmit a short phrase instead of a 
@@ -450,9 +513,12 @@ int main(void)
 		//array and are displaying the contents of the 
 		//rest of the STM32F0’s memory.
 		
+
 		
-	//	fxnAcceptsArrayOfCharsAndReturnNothing(testArr);
+
+//	fxnAcceptsArrayOfCharsAndReturnNothing(testArr);
 	
+
 		
 		//Goal is to develop an application that toggles the correct 
 		//LED whenever the character matching the first letter of the color is pressed
@@ -482,23 +548,92 @@ int main(void)
 		//and comparing with the 5th bit set to 0 has to be equal:
 	//	count=0;
 		//HAL_Delay(10);
-		readVal='\0';
+//while(1){
+
+//		while( (USART3->ISR  & 0xFFFFFFFF)==(USART3->ISR | 0x0)){ //wait until it's set.(Bit 5 RXNE: Read data register not empty)
+
+//		 }
+
+
+
+		
     USART3->RQR |=0x8; // RXFRQ flush
-		while( (USART3->ISR  & 0xFFFFFFFF)==(USART3->ISR | 0x0)){ //wait until it's set.(Bit 5 RXNE: Read data register not empty)
-			 
+		while( (USART3->ISR &0x0)==(USART3->ISR  & 0x20)){ //wait until it's set.(Bit 5 RXNE: Read data register not empty)
+
 		 }
 		
-	
+	localChar=USART3->RDR;
+	//USART3->RDR='\0';
+	USART3->RQR |=0x8; // RXFRQ flush
+	toggleLEDWithTheFirstLetterOfTheColor(localChar);
+//while(readVal !='\0'){	 
+//if(readVal=='r'){
+//	GPIOC->ODR = (0x40 |(GPIOC->ODR & 0xFFFFFC3F));	
+////	fxnAcceptsArrayOfCharsAndReturnNothing(redIsOn);
+////	readVal='\0';
+//	USART3->RQR |=0x8; // RXFRQ flush
+//					while( (USART3->ISR  & 0xFFFFFFFF)==(USART3->ISR | 0x0)){ //wait until it's set.(Bit 5 RXNE: Read data register not empty)
+
+//			 }
+//					
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+//	continue;
+
+//}
+//else if(readVal=='b'){
+//	GPIOC->ODR = (0x80 |(GPIOC->ODR & 0xFFFFFC3F));	
+//	// GPIOC->ODR |= 0x80; //blue is on, PC7
+////	fxnAcceptsArrayOfCharsAndReturnNothing(blueIsOn);
+////	readVal='\0';
+////	USART3->RQR |=0x8; // RXFRQ flush
+//	continue;
+//}
+
+//else if(readVal=='o'){
+//	GPIOC->ODR = (0x100 |(GPIOC->ODR & 0xFFFFFC3F));	
+//	//GPIOC->ODR |= 0x100; //orange ON
+////	fxnAcceptsArrayOfCharsAndReturnNothing(orangeIsOn);
+////	readVal='\0';
+////	USART3->RQR |=0x8; // RXFRQ flush
+////	continue;
+//}
+//else if(readVal=='g'){
+//	GPIOC->ODR = (0x200 |(GPIOC->ODR & 0xFFFFFC3F));	
+//	//GPIOC->ODR &= 0x2FF; //Green On
+////	fxnAcceptsArrayOfCharsAndReturnNothing(greenIsOn);
+////	readVal='\0';
+////	USART3->RQR |=0x8; // RXFRQ flush
+////	continue;
+//}
+//else{
+//	GPIOC->ODR = (GPIOC->ODR & 0xFFFFFC3F);	
+//	fxnAcceptsArrayOfCharsAndReturnNothing(errorMessageWrongButton); 
+////readVal='\0';
+////	USART3->RQR |=0x8; // RXFRQ flush
+////continue;
+//}
+//	}	 
+//}		 
+		 
+		 
+	//readVal='\0';
 	
 	//		while(count==0){ 
-	if(letterEntered){
-	letterEntered=false;
-  	//USART3->CR1 &=0xFFFFFFFB;
-		toggleLEDWithTheFirstLetterOfTheColor(readVal);
-		
-		
-	//	readVal='\0';
-	}	 
+//	if(letterEntered){
+//	letterEntered=false;
+//  	//USART3->CR1 &=0xFFFFFFFB;
+//		toggleLEDWithTheFirstLetterOfTheColor(readVal);
+//		
+//		readVal='\0';
+//	//	readVal='\0';
+//	}	 
 
 		 
 //	  readVal='\0';
