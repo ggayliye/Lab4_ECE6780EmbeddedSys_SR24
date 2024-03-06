@@ -99,6 +99,22 @@ By Feb 28th, 2024 :<br>
 - This lab doesn't look difficult. There are applications to practise
 functions in language C.
 
+<ins>3rd Week Notes:</ins> <br>
+- Some of the challenges I got :
++ setting up USART status flags that indicate the receive (read) and transmit registers
+to see if they are not empty. Assigned Hex numbers and logic checking
+were not accurate.<br>
++ After clicking a letter, I had a problem of switching the LEDs.
+It turned out that I coded them incorrectly.
++ One of the other issues I had was printing
+multiple text lines unexpectadly to the Putty
+black screen. I wanted to print feedback messages
+that were saying "LED is ON" or "LED is OFF".
+The problem was that the program enters into different if-else
+statments and prints messages that blong to a different LEDs.
+This was not part of the Lab assignment, therefore, I removed them.
+- The 1st part is completed successfully by 6th of March.	
+
 ## Testing
 No Unit Test files are created as the nature of the project. Manual testing 
 are performed in each step to ensure code improvements. Check "Testing Instructions"
