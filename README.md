@@ -113,7 +113,11 @@ that were saying "LED is ON" or "LED is OFF".
 The problem was that the program enters into different if-else
 statments and prints messages that blong to a different LEDs.
 This was not part of the Lab assignment, therefore, I removed them.
-- The 1st part is completed successfully by 6th of March.	
+- The 1st part is completed successfully by 6th of March.<br>
+
+-One of the problems I faced was having the char variables
+prining values that are blong to another char variable.
+I kind of solved it adding "volatile" in front of the char variable.
 
 ## Testing
 No Unit Test files are created as the nature of the project. Manual testing 
