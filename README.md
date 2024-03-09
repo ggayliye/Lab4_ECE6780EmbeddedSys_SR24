@@ -5,7 +5,7 @@ Date: 21-February-2024<br>
 Course: ECE 6780 - Embedded System Design, ECE Department, The University of Utah<br>
 GitHub IDs: ggayliye <br>
 Repo: https://github.com/ggayliye/Lab4_ECE6780EmbeddedSys_SR24 <br>
-Date: By 29-March-2024, 11:59pm (Time of when submission is due/will be ready to be evaluated)<br>
+Date: By 1-March-2024, 11:59pm (Time of when submission is due/will be ready to be evaluated)<br>
 Copyright: ECE 6780, Kyle G. Gayliyev - This work may not be copied for use in Academic Coursework.
 
 ## Overview of the Lab 04
