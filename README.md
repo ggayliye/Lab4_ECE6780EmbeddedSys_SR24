@@ -125,7 +125,7 @@ are performed in each step to ensure code improvements. Check "Testing Instructi
 section below.
 
 # Time Expenditures:
-<pre>Lab04: Predicted Hours: 12h		Actual Hours:	h		 </pre>
+<pre>Lab04: Predicted Hours: 12h		Actual Hours:	22h		 </pre>
 
 The actual hours recorded on top reflect the time spent for the assignment including the time 
 spent in labs. It excludes time spent reading and understanding the lab assignment instructions 
