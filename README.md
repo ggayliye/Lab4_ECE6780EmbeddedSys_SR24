@@ -133,6 +133,12 @@ at the beginning of the lab (pre-lab work).
 
 # Comments to Evaluators:
 
+YouTube Links: <br>
+
+Part1: https://www.youtube.com/watch?v=73oOoOJD7h8&ab_channel=KyleG.Gayliyev
+
+Part2: https://www.youtube.com/watch?v=1QmKMYhxCMo&ab_channel=KyleG.Gayliyev
+
 Compared to the other labs, I am uploading
 the full project files in this repo. Therfore,
 you may not need some of the information below to
